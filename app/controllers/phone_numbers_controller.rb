@@ -42,7 +42,7 @@ class PhoneNumbersController < ApplicationController
   def update
     respond_to do |format|
       if @phone_number.update(phone_number_params)
-        format.html { redirect_to @phone_number, notice: 'Phone number was successfully updated.' }
+        format.html { redirect_to @phone_number.person, notice: 'Phone number was successfully updated.' }
         format.json { render :show, status: :ok, location: @phone_number }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class PhoneNumbersController < ApplicationController
   def destroy
     @phone_number.destroy
     respond_to do |format|
-      format.html { redirect_to phone_numbers_url, notice: 'Phone number was successfully destroyed.' }
+      format.html { redirect_to @phone_number.person, notice: 'Phone number was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

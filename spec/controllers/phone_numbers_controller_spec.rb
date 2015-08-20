@@ -106,16 +106,17 @@ RSpec.describe PhoneNumbersController, type: :controller do
 
   describe "PUT #update" do
     context "with valid params" do
-      let(:new_attributes) {
-        {number: 'MyNewString', person_id: 2}
-      }
+
+      let(:bob) { Person.create(first_name: 'Bob', last_name: 'Jones') }
+      let(:valid_attributes) { {number: '555-5678', person_id: bob.id} }
+      let(:new_attributes) { {number: 'MyNewString', person_id: bob.id} }
 
       it "updates the requested phone_number" do
         phone_number = PhoneNumber.create! valid_attributes
         put :update, {:id => phone_number.to_param, :phone_number => new_attributes}, valid_session
         phone_number.reload
         expect(phone_number.number).to eq('MyNewString')
-        expect(phone_number.person_id).to eq(2)
+        expect(phone_number.person_id).to eq(1)
       end
 
       it "assigns the requested phone_number as @phone_number" do
@@ -127,7 +128,7 @@ RSpec.describe PhoneNumbersController, type: :controller do
       it "redirects to the phone_number" do
         phone_number = PhoneNumber.create! valid_attributes
         put :update, {:id => phone_number.to_param, :phone_number => valid_attributes}, valid_session
-        expect(response).to redirect_to(phone_number)
+        expect(response).to redirect_to(bob)
       end
     end
 
@@ -147,6 +148,10 @@ RSpec.describe PhoneNumbersController, type: :controller do
   end
 
   describe "DELETE #destroy" do
+
+    let(:bob) { Person.create(first_name: 'Bob', last_name: 'Jones') }
+    let(:valid_attributes) { {number: '555-5678', person_id: bob.id} }
+
     it "destroys the requested phone_number" do
       phone_number = PhoneNumber.create! valid_attributes
       expect {
@@ -157,7 +162,7 @@ RSpec.describe PhoneNumbersController, type: :controller do
     it "redirects to the phone_numbers list" do
       phone_number = PhoneNumber.create! valid_attributes
       delete :destroy, {:id => phone_number.to_param}, valid_session
-      expect(response).to redirect_to(phone_numbers_url)
+      expect(response).to redirect_to(phone_number.person)
     end
   end
 
