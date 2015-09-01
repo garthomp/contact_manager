@@ -16,6 +16,8 @@
   <% end %>
 </ul>
 
+<%= link_to 'Add email address', new_email_address_path %>
+
 <ul>
   <% @person.phone_numbers.each do |phone| %>
     <li><%= phone.number %>
