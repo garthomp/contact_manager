@@ -8,7 +8,7 @@ RSpec.describe "email_addresses/new", type: :view do
     ))
   end
 
-  it "renders new email_address form" do
+  xit "renders new email_address form" do
     render
 
     assert_select "form[action=?][method=?]", email_addresses_path, "post" do

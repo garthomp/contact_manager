@@ -70,6 +70,30 @@ describe 'the person view', type: :feature do
       page.click_link('Add email address')
       expect(page).to have_text('New Email Address')
     end
+
+    it 'should add new email address and display after redirecting to person page' do
+      page.click_link('Add email address')
+      expect(current_url).to have_content('person_id')
+      page.fill_in('Address', with: 'newemailaddress@gmail.com')
+      page.click_button('Submit')
+      expect(page).to have_text('newemailaddress@gmail.com')
+      expect(page).to have_text('First name:')
+    end
+
+    it 'should update email address and display after redirecting to person page' do
+      page.first(:link, 'edit').click
+      expect(current_url).to have_content('person_id')
+      page.fill_in('Address', with: 'editedemailaddress@gmail.com')
+      page.click_button('Submit')
+      expect(page).to have_text('editedemailaddress@gmail.com')
+      expect(page).to have_text('First name:')
+    end
+
+    it 'should delete email address and redirect to person page' do
+      page.first(:link, 'delete').click
+      expect(page).to_not have_text('bobknob@gmail.com')
+      expect(page).to have_text('First name:')
+    end
   end
 
 end
